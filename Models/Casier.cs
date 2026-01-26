@@ -3,22 +3,18 @@ namespace GestionCasiers.Models
     class Casier
     {
         // Fields
-
-        // unnecessary backing fields (auto-implemented properties)
-        //private int _id;
-        //private string _dimension;
-        //private string _location;
-        //private string _code; // 4-digits code for secured access (set at deposit, required at withdrawal)
-        //private int _failedAttempts; // to track failed attempts for secured access
         private bool _isOpen;
         private bool _isOccupied;
 
         // Properties
-        public int Id { get; private set; }     // auto-implemented property --> no need for backing field
+        //// auto-implemented property --> no need for backing field
+        public int Id { get; private set; }     
         public string Dimension { get; }
         public string Location { get; }
         public string Code { get; private set; }
         public int FailedAttempts { get; private set; }
+
+        //// custom property with get/set logic
         public bool IsBlocked
         {
             get => FailedAttempts >= 3;
@@ -33,6 +29,7 @@ namespace GestionCasiers.Models
                 _isOpen = value;
             }
         }
+
         public bool IsOccupied
         {
             get => _isOccupied;
@@ -78,9 +75,6 @@ namespace GestionCasiers.Models
             Console.WriteLine($"You can now deposit your items in Casier {Id} and close it.");
             IsOccupied = true;
 
-            // TODO: implement user input for a 4-digit code to lock the Casier
-            // TODO: store the code securely
-
             Close();
 
         }
@@ -94,8 +88,6 @@ namespace GestionCasiers.Models
             }
 
             Console.WriteLine($"Opening Casier {Id} for withdrawal...");
-
-            // TODO: if (IsOccupied) VerifyAccess();
 
             Open();
 
@@ -115,6 +107,8 @@ namespace GestionCasiers.Models
                 return;
             }
 
+            // if isOccupied, VerifyAccess()
+            // else: see below code
             IsOpen = true;
             Console.WriteLine($"Casier {Id} is now open.");
 
@@ -130,17 +124,14 @@ namespace GestionCasiers.Models
                 return;
             }
 
-            // TODO: if IsOccupied -> ask user to set a 4-digit code to lock the Casier
-            // TODO: set code securely
-
-            // TODO: if !IsOccupied -> reset stored code
+            // TODO: if IsOccupied -> SetCode() ; else -> reset code
 
             IsOpen = false;
             Console.WriteLine($"Casier {Id} is now closed.");
         }
 
         // TODO: implement VerifyAccess method to verify 4-digit code
-        // public bool VerifyAccess()
+        // private bool VerifyAccess()
         // {
             // prompt user for 4-digit code
             // compare to stored code
@@ -148,6 +139,14 @@ namespace GestionCasiers.Models
 
             // implement retry logic with max attempts (3)
             // return false if exceeded attempts
+        // }
+
+        //TODO: implement SetCode method to set a new 4-digit code
+        // private void SetCode()
+        // {
+            // prompt user for new 4-digit code
+            // validate input
+            // store code securely
         // }
     }
 
