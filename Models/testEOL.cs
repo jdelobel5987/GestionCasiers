@@ -1,2 +1,5 @@
 // Test EOL Windows
-public class TestEOL {}
+public class TestEOL
+{
+    // modification depuis Linux
+}
